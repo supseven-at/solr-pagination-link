@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Supseven\SolrPaginationLink\ViewHelpers;
@@ -20,8 +21,6 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
 {
     /**
      * Initialize provided arguments
-     *
-     * @return void
      */
     public function initializeArguments(): void
     {
@@ -44,8 +43,7 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
         array $arguments,
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
-    ): string
-    {
+    ): string {
         // Access all get params
         $allQueryParams = GeneralUtility::_GET();
 
@@ -84,7 +82,6 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
         // The param 'page' has to be taken from $arguments, not the get params, because the page param
         // is the one that changes for every single link in the pagination.
         return $uriBuilder->uriFor('results', ['page' => $arguments['page']], 'Search');
-
     }
 
     /**
@@ -96,8 +93,8 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
      *
      * @return string
      */
-    private static function sanitizeUrlString (string $string): string
+    private static function sanitizeUrlString(string $string): string
     {
-        return preg_replace('/[^-a-z0-9_\+äöü: ]/ui', '', $string);
+        return preg_replace('/[^-a-z0-9_\\+äöü: ]/ui', '', $string);
     }
 }

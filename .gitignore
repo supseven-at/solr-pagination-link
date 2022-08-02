@@ -22,3 +22,6 @@
 # Ignore temp directory.
 /typo3temp/
 .idea/
+/public
+/vendor
+/.php-cs-fixer.cache
