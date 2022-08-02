@@ -23,6 +23,6 @@
   "extra": {
     "typo3/cms": {
       "extension-key": "solr_pagination_link"
-    },
+    }
   }
 }
