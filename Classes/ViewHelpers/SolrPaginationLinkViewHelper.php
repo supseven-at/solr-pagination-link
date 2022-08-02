@@ -103,7 +103,7 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
      *
      * @return string
      */
-    private static function sanitizeUrlString(string $string): string
+    public static function sanitizeUrlString(string $string): string
     {
         return preg_replace('/[^-a-z0-9_\\+äöü: ]/ui', '', $string);
     }
