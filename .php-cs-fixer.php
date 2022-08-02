@@ -6,6 +6,7 @@ use Symfony\Component\Finder\Finder;
 
 $finder = Finder::create()
     ->name('/\\.php$/')
+    ->in(__DIR__ . '/Tests')
     ->in(__DIR__ . '/Classes');
 
 return (new PhpCsFixer\Config())
