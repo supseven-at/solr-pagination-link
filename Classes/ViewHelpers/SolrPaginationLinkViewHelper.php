@@ -80,8 +80,10 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
         }
 
         // The param 'page' has to be taken from $arguments, not the get params, because the page param
-        // is the one that changes for every single link in the pagination.
-        return $uriBuilder->uriFor('results', ['page' => $arguments['page']], 'Search');
+        // is the one that changes for every single link in the pagination
+        $page = (int)$arguments['page'];
+        $newPage = $page ? : 1;
+        return $uriBuilder->uriFor('results', ['page' => $newPage], 'Search');
     }
 
     /**
