@@ -25,11 +25,21 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
     public function initializeArguments(): void
     {
         // The page param changes with every single link created for the pagination...
-        $this->registerArgument('page', 'integer', 'The pagination page number (1,2,3...) the link should point to.',
-            true);
+        $this->registerArgument(
+            'page',
+            'integer',
+            'The pagination page number (1,2,3...) the link should point to.',
+            true
+        );
         // ... therefore we don't need to provide it from the get params
-        $this->registerArgument('allowedParams', 'string', 'Params the view helper should allowed to pass through.',
-            false, 'q,filter');
+        $this->registerArgument(
+            'allowedParams',
+            'string',
+            'Params the view helper should allowed to pass through.',
+            false,
+            'q,filter'
+        );
+        $this->registerArgument('extPrefix', 'string', 'Prefix for get params', false, 'tx_solr');
     }
 
     /**
@@ -55,33 +65,32 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
         $allowedParams = GeneralUtility::trimExplode(',', $arguments['allowedParams']);
 
         // Iterate over all get params and create new sanitized params
-        foreach ($allQueryParams as $queryKey => $params) {
-            foreach ($params as $key => $value) {
-                // We only accept params mentioned in $allowedParams
-                // Here the page param is excluded, because it has to be taken from $arguments
-                if (in_array($key, $allowedParams, true)) {
-                    $queryValue = null;
-                    // The query param might be an array, e.g. if facets/filters are used
-                    if (is_array($value)) {
-                        foreach ($value as $v) {
-                            // Sanitize the value
-                            $queryValue[] = self::sanitizeUrlString($v);
-                        }
-                    } else {
+        foreach ($allQueryParams as $key => $value) {
+            // We only accept params mentioned in $allowedParams
+            // Here the page param is excluded, because it has to be taken from $arguments
+            if (in_array($key, $allowedParams, true)) {
+                $queryValue = null;
+                // The query param might be an array, e.g. if facets/filters are used
+                if (is_array($value)) {
+                    foreach ($value as $v) {
                         // Sanitize the value
-                        $queryValue = self::sanitizeUrlString($value);
+                        $queryValue[] = self::sanitizeUrlString($v);
                     }
-                    // Rebuild the argument and hand it over to the uriBuilder
-                    $args[$queryKey][$key] = $queryValue;
-                    $uriBuilder->setArguments($args);
+                } else {
+                    // Sanitize the value
+                    $queryValue = self::sanitizeUrlString($value);
                 }
+                // Rebuild the argument and hand it over to the uriBuilder
+                $args[$arguments['extPrefix']][$key] = $queryValue;
+                $uriBuilder->setArguments($args);
             }
         }
 
         // The param 'page' has to be taken from $arguments, not the get params, because the page param
         // is the one that changes for every single link in the pagination
-        $page    = (int)$arguments['page'];
-        $newPage = $page ? : 1;
+        $page = (int)$arguments['page'];
+        $newPage = $page ?: 1;
+
         return $uriBuilder->uriFor('results', ['page' => $newPage], 'Search');
     }
 
