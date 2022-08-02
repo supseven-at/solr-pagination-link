@@ -56,7 +56,7 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
         \Closure $renderChildrenClosure,
         RenderingContextInterface $renderingContext
     ): string {
-        // Access get params
+        // Access get params. This excludes all params not prefixed by default!
         $allQueryParams = $renderingContext->getRequest()->getArguments();
 
         $uriBuilder = $renderingContext->getUriBuilder();
@@ -86,7 +86,7 @@ class SolrPaginationLinkViewHelper extends AbstractViewHelper
             }
         }
 
-        // The param 'page' has to be taken from $arguments, not the get params, because the page param
+        // The param 'page' has to be taken from $arguments, not the get params, because the 'page' param
         // is the one that changes for every single link in the pagination
         $page = (int)$arguments['page'];
         $newPage = $page ?: 1;

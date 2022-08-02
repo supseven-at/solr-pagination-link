@@ -19,10 +19,11 @@
 /Packages
 /.htaccess
 /index.php
+/public
+/vendor
 # Ignore temp directory.
 /typo3temp/
 .idea/
-/public
-/vendor
+# Ignore test and fixer caches
 /.php-cs-fixer.cache
 /.phpunit.result.cache
